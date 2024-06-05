@@ -1,3 +1,7 @@
+
+import { Model } from 'mongoose';
+import { studentModel } from './studentModel';
+
 export type Guardian = {
   fatherName: string;
   fatherOccupation: string;
@@ -22,8 +26,9 @@ export type LocalGuardian = {
 
 export type Student = {
   id: string;
+  password: string;
   name: UserName;
-  gender: "male" | "female";
+  gender: "male" | "female" | "other";
   dateOfBirth: string;
   email: string;
   contractNo: string;
@@ -33,6 +38,20 @@ export type Student = {
   permanentAddress: string;
   guardian: Guardian;
   localGuardian: LocalGuardian;
-  profileImg: string;
+  profileImg?: string;
   isActive: "active" | "inactive";
 };
+
+// for creating static
+
+export interface stuModel extends Model<Student> {
+  isUserExists(id: string): Promise<Student| null>
+}
+
+// for creating instance
+
+// export type studentMethods = {
+//   isUserExits(id: string): Promise<Student | null>
+// }
+
+// export type sModel = Model<Student,Record<string, never>, studentMethods> 
