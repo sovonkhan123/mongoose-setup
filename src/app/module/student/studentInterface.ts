@@ -1,6 +1,4 @@
-
-import { Model } from 'mongoose';
-import { studentModel } from './studentModel';
+import { Model, Types } from 'mongoose';
 
 export type Guardian = {
   fatherName: string;
@@ -26,6 +24,7 @@ export type LocalGuardian = {
 
 export type Student = {
   id: string;
+  user: Types.ObjectId;
   password: string;
   name: UserName;
   gender: "male" | "female" | "other";
@@ -39,7 +38,9 @@ export type Student = {
   guardian: Guardian;
   localGuardian: LocalGuardian;
   profileImg?: string;
-  isActive: "active" | "inactive";
+  AcademicSemester: Types.ObjectId;
+  AcademicDepartment: Types.ObjectId;
+  isDeleted:boolean;
 };
 
 // for creating static
