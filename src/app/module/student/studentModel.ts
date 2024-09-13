@@ -147,8 +147,18 @@ const studentSchema = new Schema<Student, stuModel>({
   },
 });
 
-// creating a custom static method
+//virtual
+studentSchema.virtual('fullName').get(function () {
+  return this?.name?.firstName + this?.name?.middleName + this?.name?.lastName;
+})
 
+//query middleware
+studentSchema.pre("find", function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+// creating a custom static method
 studentSchema.statics.isUserExists = async function (id: string) {
   const existingUser = await studentModel.findOne({ id });
   return existingUser;

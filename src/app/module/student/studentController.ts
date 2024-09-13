@@ -1,11 +1,11 @@
-import {RequestHandler} from "express";
+import { RequestHandler } from "express";
 import { StudentServices } from "./studentService";
 import { catchAsync } from "../../utils/CatchAsync";
 import httpStatus from "http-status";
 // import httpStatus from "http-status";
 
 const getAllStudents: RequestHandler = catchAsync(async (req, res) => {
-  const result = await StudentServices.getAllStudentsFromDB();
+  const result = await StudentServices.getAllStudentsFromDB(req.query);
   res.status(200).json({
     success: true,
     message: "student is retrieved successfully",
@@ -24,35 +24,32 @@ const getSingleStudent: RequestHandler = catchAsync(async (req, res) => {
 });
 
 const deleteStudent = catchAsync(async (req, res) => {
-  const {studentId} = req.params;
+  const { studentId } = req.params;
 
-  const result = await StudentServices.deleteStudentFromDB(studentId)
-  res.status(200).json(
-    {
-      statusCode: httpStatus.OK, 
-      success: true,
-      message: 'Student is deleted successfully',
-      data: result
-    }
-  )
-})
+  const result = await StudentServices.deleteStudentFromDB(studentId);
+  res.status(200).json({
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Student is deleted successfully",
+    data: result,
+  });
+});
 const updateStudent = catchAsync(async (req, res) => {
-  const {studentId} = req.params;
+  const { studentId } = req.params;
+  const { student } = req.body;
 
-  const result = await StudentServices.updateStudentFromDB(studentId, req.body)
-  res.status(200).json(
-    {
-      statusCode: httpStatus.OK, 
-      success: true,
-      message: 'Student is updated successfully',
-      data: result
-    }
-  )
-})
+  const result = await StudentServices.updateStudentFromDB(studentId, student);
+  res.status(200).json({
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Student is updated successfully",
+    data: result,
+  });
+});
 
 export const StudentController = {
   getAllStudents,
   getSingleStudent,
   deleteStudent,
-  updateStudent
+  updateStudent,
 };
