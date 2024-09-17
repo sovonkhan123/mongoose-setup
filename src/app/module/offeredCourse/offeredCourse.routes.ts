@@ -10,3 +10,5 @@ router.post('/create-offeredCourse',
     OfferedCourseController.createOfferedCourse,
     
 )
+
+export const OfferedCourseRoutes = router; 
